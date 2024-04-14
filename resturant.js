@@ -129,54 +129,72 @@ const menu =[
      const listDiv = document.getElementById('menu-items');
      const uniqueBtn =document.getElementById('unique-btn');
      
+      window.addEventListener('DOMContentLoaded', function () {
+        
+        displayListItems(menu);
+        const categories = menu.reduce((total, item) =>{
+          if (!total.includes(item.category)) {
+            total.push(item.category)
+          }
+          return total 
+        },['All']);
+        
+        const unique = categories.map((category) =>{
+          return `<button class="filter-btn" type="button" data-id=${category}>${category}</button>`
+        }).join('');
+        uniqueBtn.innerHTML = unique
+
+       const filterBtn = document.querySelectorAll('.filter-btn')
+
+       filterBtn.forEach((btn)=>{
+        btn.addEventListener('click', (e)=>{
+         const category = e.currentTarget.dataset.id
+         const menuCategory = menu.filter((menuItem)=>{
+          if (menuItem.category === category) {
+            return menuItem
+          }
+         });
+         if (category === 'All'){
+          displayListItems(menu)
+         }else {
+          displayListItems(menuCategory)
+         }
+          
+        })
+       })
+
+      }) 
+
+     function displayListItems (ListItems){
      
-     const displayList = menu.map((item)=>{
-    return `<div class="card mb-3 p-0 g-3" style="max-width: 540px; margin-right:20px">
-    <div class="row g-0">
-      <div class="col-md-4">
-        <img src= ${item.img} class="img-fluid rounded-start h-100 " alt="..." style="padding-left:-3px">
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title ps-5 d-flex gap-5">${item.name} <span style="margin-right:-40px; color: red;"> ${item.price}</span></h5>
-          <p class="card-text">${item.desc}</p>
-          <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+      let displayList = menu.map((item)=>{
+
+        return `<div class="card mb-3 p-0 g-3" style="max-width: 540px; margin-right:20px">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src= ${item.img} class="img-fluid rounded-start h-100 " alt="..." style="padding-left:-3px">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title ps-5 d-flex gap-5">${item.name} <span style="margin-right:-40px; color: red;"> ${item.price}</span></h5>
+              <p class="card-text">${item.desc}</p>
+              <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    </div>`
-    })
-    .join('');
-    
-    listDiv.innerHTML = displayList;
-    
-    
-    
-    
-    
-    // filter buttons
-     function uniqueDisplay () {
-      const listMenu = menu.map(items => {
-        return  `<button class="filter-btn" type="button" data-id = ${items.category}> ${items.category}</button>`
-       }).join(' ');
-      menu.reduce((total, accr) => {
-        if (!total.category === total) {
-         total.push(total.category) 
-        }
-        console.log(total);
-      return total
-      },['All'])
+        </div>`
+        })
+       displayList = displayList.join('');
+       listDiv.innerHTML = displayList
+        
+     }
       
-     } 
-      uniqueDisplay()
-      
+     
     
-    //   const getCategories = menu.map((category)=>{
-    //  category.category
-    //   })
     
-    //   const uniqueCategory = [...new (getCategories)]
-    //   console.log(uniqueCategory);
+    
+    
+    
     
       
     
@@ -212,20 +230,7 @@ const menu =[
     
     
     
-    // window.addEventListener('DOMContentLoaded', function() {
-      
-    //   displayList = menu.map((item) =>{
-    //     return ` <div class="card " style="width:16rem;">
-    //      <img src=${item.img} class="card-img-top" alt="...">
-    //      <div class="card-body">
-    //        <h5 class="card-title">${item.name}</h5>
-    //       <p class="card-text">${item.desc}</p>
-    //     </div>
-    //     </div>`
-    //     })
-    //   })
-    //   displayList = displayList.join('')
-    //   listDiv.innerHTML = displayList
+  
     
      
     
